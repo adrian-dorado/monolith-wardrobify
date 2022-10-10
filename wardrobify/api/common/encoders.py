@@ -1,11 +1,12 @@
 from common.json import ModelEncoder
-from .models import (
+from clothing.models import (
     Top,
     Accessorie,
     Bottom,
     Footwear,
     Undergarment,
 )
+from closets.models import Outfit, Closet
 
 
 class TopEncoder(ModelEncoder):
@@ -33,3 +34,27 @@ class FootwearEncoder(ModelEncoder):
     properties = ["id", "name", "brand", "footwear_type"]
 
 
+class ClosetsEncoder(ModelEncoder):
+    model = Closet
+    properties = ["id", "name", "closet_number", "closet_size"]
+
+
+class OutfitsEncoder(ModelEncoder):
+    model = Outfit
+    properties = [
+        "id",
+        "outfit_name",
+        "accessories",
+        "bottom",
+        "footwear",
+        "top",
+        "undergarment"
+    ]
+
+    encoders = {
+        "accessories": AccessoriesEncoder(),
+        "bottom": BottomEncoder(),
+        "footwear": FootwearEncoder(),
+        "top": TopEncoder(),
+        "undergarment": UndergarmentEncoder()
+    }

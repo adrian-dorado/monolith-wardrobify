@@ -27,32 +27,6 @@ class Accessorie(models.Model):
     )
 
 
-class Top(models.Model):
-    TSHIRT = "TEE"
-    JACKET = "JCKT"
-    SWEATER = "SWTR"
-    CARDIGAN = "CARD"
-    HOODIE = "HOOD"
-    VEST = "VST"
-    DRESS = "DRES"
-    COVERALLS = "CVRA"
-    TOP_CHOICES = [
-        (TSHIRT, "T-Shirts"),
-        (JACKET, "Jackets"),
-        (SWEATER, "Sweaters"),
-        (CARDIGAN, "Cardigans"),
-        (HOODIE, "Hoodies"),
-        (VEST, "Vests"),
-        (DRESS, "Dresses"),
-        (COVERALLS, "Coveralls"),
-    ]
-    name = models.CharField(max_length=32)
-    brand = models.CharField(max_length=32)
-    top_type = models.CharField(
-        max_length=12, choices=TOP_CHOICES, default=TSHIRT
-    )
-
-
 class Bottom(models.Model):
     PANTS = "PNTS"
     SHORTS = "SHRT"
@@ -79,6 +53,56 @@ class Bottom(models.Model):
     )
 
 
+class Footwear(models.Model):
+    SHOES = "SHOE"
+    HEELS = "HEEL"
+    SANDALS = "SAND"
+    SLIDES = "SLDE"
+    SOCKS = "SOCK"
+    BOOTS = "BOOT"
+    FOOTWEAR_CHOICES = [
+        (SHOES, "Shoes"),
+        (HEELS, "Heels"),
+        (SANDALS, "Sandals"),
+        (SLIDES, "Slides"),
+        (SOCKS, "Socks"),
+        (BOOTS, "Boots"),
+    ]
+    name = models.CharField(max_length=32)
+    brand = models.CharField(max_length=32)
+    top_type = models.CharField(
+        max_length=12, choices=FOOTWEAR_CHOICES, default=SHOES
+    )
+
+
+
+
+class Top(models.Model):
+    TSHIRT = "TEE"
+    JACKET = "JCKT"
+    SWEATER = "SWTR"
+    CARDIGAN = "CARD"
+    HOODIE = "HOOD"
+    VEST = "VST"
+    DRESS = "DRES"
+    COVERALLS = "CVRA"
+    TOP_CHOICES = [
+        (TSHIRT, "T-Shirts"),
+        (JACKET, "Jackets"),
+        (SWEATER, "Sweaters"),
+        (CARDIGAN, "Cardigans"),
+        (HOODIE, "Hoodies"),
+        (VEST, "Vests"),
+        (DRESS, "Dresses"),
+        (COVERALLS, "Coveralls"),
+    ]
+    name = models.CharField(max_length=32)
+    brand = models.CharField(max_length=32)
+    top_type = models.CharField(
+        max_length=12, choices=TOP_CHOICES, default=TSHIRT
+    )
+
+
 class Undergarment(models.Model):
     UNDERSHIRTS = "UNSHRT"
     BRAS = "BRA"
@@ -100,24 +124,5 @@ class Undergarment(models.Model):
     brand = models.CharField(max_length=32)
     top_type = models.CharField(
         max_length=15, choices=UNDERGARMENT_CHOICES, default=UNDERSHIRTS
-    )
-
-class Footwear(models.Model):
-    SHOES = "SHOE"
-    SANDALS = "SAND"
-    SLIDES = "SLDE"
-    SOCKS = "SOCK"
-    BOOTS = "BOOT"
-    FOOTWEAR_CHOICES = [
-        (SHOES, "Shoes"),
-        (SANDALS, "Sandals"),
-        (SLIDES, "Slides"),
-        (SOCKS, "Socks"),
-        (BOOTS, "Boots"),
-    ]
-    name = models.CharField(max_length=32)
-    brand = models.CharField(max_length=32)
-    top_type = models.CharField(
-        max_length=12, choices=FOOTWEAR_CHOICES, default=SHOES
     )
 
