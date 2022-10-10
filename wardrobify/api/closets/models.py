@@ -18,6 +18,7 @@ class Closet(models.Model):
 
 class Outfit(models.Model):
     outfit_name = models.CharField(max_length=120)
+    closet = models.ForeignKey(Closet, related_name="outfit", on_delete=models.CASCADE)
     accessories = models.ManyToManyField(Accessorie)
     top = models.ManyToManyField(Top)
     undergarment = models.ManyToManyField(Undergarment)
