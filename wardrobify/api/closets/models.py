@@ -19,7 +19,7 @@ class Closet(models.Model):
 class Outfit(models.Model):
     outfit_name = models.CharField(max_length=120)
     accessories = models.ManyToManyField(Accessorie)
-    bottom = models.ManyToManyField(Bottom)
-    footwear = models.ManyToManyField(Footwear)
     top = models.ManyToManyField(Top)
     undergarment = models.ManyToManyField(Undergarment)
+    bottom = models.ManyToManyField(Bottom)
+    footwear = models.ManyToManyField(Footwear)
