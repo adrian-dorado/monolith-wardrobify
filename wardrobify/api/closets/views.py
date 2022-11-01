@@ -46,12 +46,7 @@ def closet_details(request, pk):
     else:  # PUT
         try:
             content = json.loads(request.body)
-            closet = Closet.objects.get(id=pk)
-            properties = ["name", "closet_number", "closet_size"]
-            for prop in properties:
-                if prop in content:
-                    setattr(closet, properties, content[properties])
-            closet.save()
+            closet = Closet.objects.filter(id=pk).update(**content)
             return JsonResponse(
                 {"Closet Updated": closet}, encoder=ClosetsEncoder, safe=False
             )

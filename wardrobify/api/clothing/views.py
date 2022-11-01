@@ -54,12 +54,7 @@ def top_details(request, pk):
     else:  # PUT
         try:
             content = json.loads(request.body)
-            top = Top.objects.get(id=pk)
-            properties = ["name", "brand", "top_type"]
-            for prop in properties:
-                if prop in content:
-                    setattr(top, properties, content[properties])
-            top.save()
+            top = Top.objects.filter(id=pk).update(**content)
             return JsonResponse({"Top Updated": top}, encoder=TopEncoder, safe=False)
         except Top.DoesNotExist:
             response = JsonResponse({"Message": "Top Does Not Exist"})
@@ -109,12 +104,7 @@ def bottom_details(request, pk):
     else:  # PUT
         try:
             content = json.loads(request.body)
-            bottom = Bottom.objects.get(id=pk)
-            properties = ["name", "brand", "bottom_type"]
-            for prop in properties:
-                if prop in content:
-                    setattr(bottom, properties, content[properties])
-            bottom.save()
+            bottom = Bottom.objects.filter(id=pk).update(**content)
             return JsonResponse(
                 {"Bottom Updated": bottom}, encoder=BottomEncoder, safe=False
             )
@@ -174,12 +164,7 @@ def undergarment_details(request, pk):
     else:  # PUT
         try:
             content = json.loads(request.body)
-            undergarment = Undergarment.objects.get(id=pk)
-            properties = ["name", "brand", "Undergarment_type"]
-            for prop in properties:
-                if prop in content:
-                    setattr(undergarment, properties, content[properties])
-            undergarment.save()
+            undergarment = Undergarment.objects.filter(id=pk).update(**content)
             return JsonResponse(
                 {"Undergarment Updated": Undergarment},
                 encoder=UndergarmentEncoder,
@@ -233,12 +218,7 @@ def footwear_details(request, pk):
     else:  # PUT
         try:
             content = json.loads(request.body)
-            footwear = footwear.objects.get(id=pk)
-            properties = ["name", "brand", "footwear_type"]
-            for prop in properties:
-                if prop in content:
-                    setattr(footwear, properties, content[properties])
-            footwear.save()
+            footwear = footwear.objects.filter(id=pk).update(**content)
             return JsonResponse(
                 {"Footwear Updated": footwear}, encoder=FootwearEncoder, safe=False
             )
@@ -293,12 +273,7 @@ def accessory_details(request, pk):
     else:  # PUT
         try:
             content = json.loads(request.body)
-            accessory = Accessorie.objects.get(id=pk)
-            properties = ["name", "brand", "accessorie_type"]
-            for prop in properties:
-                if prop in content:
-                    setattr(accessory, properties, content[properties])
-            accessory.save()
+            accessory = Accessorie.objects.filter(id=pk).update(**content)
             return JsonResponse(
                 {"Accessory Updated": accessory}, encoder=AccessoriesEncoder, safe=False
             )
