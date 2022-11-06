@@ -31,7 +31,7 @@ def closet_details(request, pk):
         except Closet.DoesNotExist:
             response = JsonResponse({"Message": "Closet does not exist."})
             response.status_code = 404
-            return responses
+            return response
     elif request.method == "DELETE":
         try:
             closet = Closet.objects.get(id=pk)
@@ -42,7 +42,7 @@ def closet_details(request, pk):
         except Closet.DoesNotExist:
             response = JsonResponse({"Message": "Closet does not exist."})
             response.status_code = 404
-            return responses
+            return response
     else:  # PUT
         try:
             content = json.loads(request.body)
@@ -53,11 +53,68 @@ def closet_details(request, pk):
         except Closet.DoesNotExist:
             response = JsonResponse({"Message": "Closet does not exist."})
             response.status_code = 404
-            return responses
+            return response
 
 
 # ---------------- OUTFIT VIEWS ------------------
 
-# @require_http_methods(["GET", "POST"])
-# def list_outfits(request, pk):
 
+@require_http_methods(["GET", "POST"])
+def outfit_list(request):
+    if request.method == "GET":
+        outfits = Outfit.objects.all()
+        return JsonResponse({"Outfits": outfits}, encoder=OutfitsEncoder)
+    else:
+        try:
+            closet_name = content["name"]
+            closet = Closet.objects.get(name=closet_name)
+            content["name"] = closet
+        except Closet.DoesNotExist:
+            response = JsonResponse({"Message": "Closet does not exist."})
+            response.status_code = 404
+            return response
+        content = json.loads(request.body)
+        outfit = Outfit.objects.create(**content)
+        return JsonResponse({"Outfits": outfit}, encoder=OutfitsEncoder, safe=False)
+
+
+@require_http_methods(["DELETE", "GET", "PUT"])
+def outfit_details(request, pk):
+    if request.method == "GET":
+        try:
+            outfit = Outfit.objects.get(id=pk)
+            return JsonResponse({"Outfit": outfit}, encoder=OutfitsEncoder, safe=False)
+        except Closet.DoesNotExist:
+            response = JsonResponse({"Message": "Outfit does not exist."})
+            response.status_code = 404
+            return response
+    elif request.method == "DELETE":
+        try:
+            outfit = Outfit.objects.get(id=pk)
+            outfit.delete()
+            return JsonResponse(
+                {"Outfit Deleted": outfit}, encoder=OutfitsEncoder, safe=False
+            )
+        except Outfit.DoesNotExist:
+            response = JsonResponse({"Message": "Outfit does not exist."})
+            response.status_code = 404
+            return response
+    else:  # PUT
+        try:
+            closet_name = content["name"]
+            closet = Closet.objects.get(name=closet_name)
+            content["name"] = closet
+        except Closet.DoesNotExist:
+            response = JsonResponse({"Message": "Closet does not exist."})
+            response.status_code = 404
+            return response
+        try:
+            content = json.loads(request.body)
+            outfit = Outfit.objects.filter(id=pk).update(**content)
+            return JsonResponse(
+                {"Outfit Updated": outfit}, encoder=OutfitsEncoder, safe=False
+            )
+        except Outfit.DoesNotExist:
+            response = JsonResponse({"Message": "Outfit does not exist."})
+            response.status_code = 404
+            return response

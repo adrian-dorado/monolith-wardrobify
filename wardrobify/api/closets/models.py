@@ -15,12 +15,18 @@ class Closet(models.Model):
     closet_number = models.SmallIntegerField()
     closet_size = models.SmallIntegerField()
 
+    def __str__(self):
+        return f"{self.name}"
+
 
 class Outfit(models.Model):
     outfit_name = models.CharField(max_length=120)
     closet = models.ForeignKey(Closet, related_name="outfit", on_delete=models.CASCADE)
-    accessories = models.ManyToManyField(Accessorie)
-    top = models.ManyToManyField(Top)
-    undergarment = models.ManyToManyField(Undergarment)
-    bottom = models.ManyToManyField(Bottom)
-    footwear = models.ManyToManyField(Footwear)
+    accessories = models.ManyToManyField(Accessorie, blank=True)
+    top = models.ManyToManyField(Top, blank=True)
+    undergarment = models.ManyToManyField(Undergarment, blank=True)
+    bottom = models.ManyToManyField(Bottom, blank=True)
+    footwear = models.ManyToManyField(Footwear, blank=True)
+
+    def __str__(self):
+        return f"{self.outfit_name}"

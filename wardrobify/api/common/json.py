@@ -1,4 +1,5 @@
 from json import JSONEncoder
+from django.db.models import ManyToManyField
 from django.urls import NoReverseMatch
 from django.db.models import QuerySet
 from datetime import datetime
@@ -15,6 +16,14 @@ class DateEncoder(JSONEncoder):
 class QuerySetEncoder(JSONEncoder):
     def default(self, o):
         if isinstance(o, QuerySet):
+            return list(o)
+        else:
+            return super().default(o)
+
+
+class ManyRelatedEncoder(JSONEncoder):
+    def default(self, o):
+        if isinstance(o, ManyToManyField):
             return list(o)
         else:
             return super().default(o)

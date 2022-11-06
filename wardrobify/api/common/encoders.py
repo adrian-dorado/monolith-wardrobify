@@ -51,10 +51,16 @@ class OutfitsEncoder(ModelEncoder):
         "undergarment"
     ]
 
-    encoders = {
-        "accessories": AccessoriesEncoder(),
-        "bottom": BottomEncoder(),
-        "footwear": FootwearEncoder(),
-        "top": TopEncoder(),
-        "undergarment": UndergarmentEncoder()
-    }
+    def get_extra_data(self, o):
+        return {
+            "accessories": o.accessories.name,
+            
+        }
+
+    # encoders = {
+    #     "accessories": AccessoriesEncoder(),
+    #     "bottom": BottomEncoder(),
+    #     "footwear": FootwearEncoder(),
+    #     "top": TopEncoder(),
+    #     "undergarment": UndergarmentEncoder()
+    # }
