@@ -25,34 +25,21 @@ class Category(models.Model):
         return self.name
 
 
-class ItemCategory(models.Model):
+class ClothingItem(models.Model):
     name = models.CharField(max_length=64, null=False, blank=False)
     category = models.ForeignKey(
         Category,
         related_name="item_categories",
         on_delete=models.CASCADE
     )
-
-    def __str__(self):
-        return f"{self.name} - {self.category}"
-
-class OutfitItem(models.Model):
-    name = models.CharField(max_length=64, null=False, blank=False)
     outfit = models.ForeignKey(
         Outfit,
         related_name="outfit_items",
         on_delete=models.CASCADE
     )
-    item_category = models.ForeignKey(
-        ItemCategory,
-        related_name="outfit_items",
-        on_delete=models.CASCADE
-    )
 
     def __str__(self):
-        return self.name
-
-
+        return f"{self.name} - {self.outfit}"
 
 
 # class Accessorie(models.Model):

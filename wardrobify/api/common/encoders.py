@@ -18,9 +18,8 @@ class ItemCategoryEncoder(ModelEncoder):
     model = ItemCategory
     properties = ["id", "name", "category"]
 
-    encoders = {
-        "category": CategoryEncoder()
-    }
+    def get_extra_data(self, o):
+        return {"category": o.category.name}
 
 class OutfitEncoder(ModelEncoder):
     model = Outfit

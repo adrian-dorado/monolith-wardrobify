@@ -12,11 +12,11 @@ from .models import *
 def list_categories(request):
     if request.method == "GET":
         categories = Category.objects.all()
-        return JsonResponse({"categories": categories}, encoder=CategoryEncoder)
+        return JsonResponse({"Categories": categories}, encoder=CategoryEncoder)
     else:
         content = json.loads(request.body)
         category = Category.objects.create(**content)
-        return JsonResponse({"category created": category}, encoder=CategoryEncoder)
+        return JsonResponse({"Category Created": category}, encoder=CategoryEncoder)
 
 
 @require_http_methods(["GET", "PUT", "DELETE"])
@@ -59,6 +59,14 @@ def list_item_categories(request):
         return JsonResponse({"Item Categories": item_categories}, encoder=ItemCategoryEncoder)
     else:
         content = json.loads(request.body)
+        try:
+            category = Category.objects.get(name=content["category"])
+            content["category"] = category
+        except Category.DoesNotExist:
+            return JsonResponse(
+                {"Message": "Category does not exist"},
+                status=400
+            )
         item_category = ItemCategory.objects.create(**content)
         return JsonResponse({"Item Category": item_category}, encoder=ItemCategoryEncoder, safe=False)
 
@@ -83,4 +91,21 @@ def item_category_details(request, pk):
                 {"Message": "Invalid ID"},
                 status=400,
             )
+        try:
+            content = json.loads(request.body)
+            item_category = ItemCategory.objects.filter(id=pk).update(**content)
+            return JsonResponse({"Item Category Updated": item_category}, encoder=ItemCategoryEncoder, safe=False)
+        except ItemCategory.DoesNotExist:
+            response = JsonResponse({"Message": "Item Category Does Not Exist"})
+            response.status_code = 404
+            return response
+    else:
+        try:
+            item_category = ItemCategory.objects.get(id=pk)
+            item_category.delete()
+            return JsonResponse({"Category Deleted": item_category}, encoder=ItemCategoryEncoder, safe=False)
+        except ItemCategory.DoesNotExist:
+            response = JsonResponse({"Message": "Category does not exist"})
+            response.status_code = 404
+            return response
     
