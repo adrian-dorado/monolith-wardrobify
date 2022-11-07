@@ -4,5 +4,4 @@ from .models import *
 
 admin.site.register(Category)
 admin.site.register(Outfit)
-admin.site.register(OutfitItem)
-admin.site.register(ItemCategory)
+admin.site.register(ClothingItem)

@@ -1,6 +1,6 @@
 from common.json import ModelEncoder
 
-from clothing.models import Outfit, Category, ItemCategory, OutfitItem
+from clothing.models import Outfit, Category, ClothingItem
 from closets.models import Closet
 
 
@@ -14,29 +14,26 @@ class CategoryEncoder(ModelEncoder):
     properties = ["id", "name"]
 
 
-class ItemCategoryEncoder(ModelEncoder):
-    model = ItemCategory
-    properties = ["id", "name", "category"]
-
-    def get_extra_data(self, o):
-        return {"category": o.category.name}
 
 class OutfitEncoder(ModelEncoder):
     model = Outfit
-    properties = ["id", "name", "desc", "date_created", "closet"]
+    properties = ["id", "name", "desc", "date_created"]
 
-    encoders = {"closet": ClosetEncoder()}
+    def get_extra_data(self, o):
+        return {
+            "closet": o.closet.name
+        }
+
+class ClothingItemEncoder(ModelEncoder):
+    model = ClothingItem
+    properties = ["id", "name", "category"]
 
 
-
-class OutfitItemEncoder(ModelEncoder):
-    model = OutfitItem
-    properties = ["id", "name", "outfit", "item_category"]
-
-    encoders = {
-        "outfit": OutfitEncoder(),
-        "item_category": ItemCategoryEncoder()
-    }
+    def get_extra_data(self, o):
+        return {
+            "outfit_name": o.outfit.name,
+            "category": o.category.name,
+        }
 
 
 # class TopEncoder(ModelEncoder):

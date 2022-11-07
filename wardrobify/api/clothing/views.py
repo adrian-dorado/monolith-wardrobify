@@ -2,8 +2,8 @@ from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
 import json
 
-from common.encoders import CategoryEncoder, ItemCategoryEncoder, OutfitEncoder, OutfitItemEncoder
-from .models import *
+from common.encoders import CategoryEncoder, ClothingItemEncoder, OutfitEncoder
+from .models import Category, ClothingItem, Outfit, Closet
 
 # # ------------------- Category VIEWS --------------------
 
@@ -30,8 +30,8 @@ def category_details(request, pk):
             response.status_code = 404
             return response
     elif request.method == "PUT":
+        content = json.loads(request.body)
         try:
-            content = json.loads(request.body)
             category = Category.objects.filter(id=pk).update(**content)
             return JsonResponse({"Category Updated": category}, encoder=CategoryEncoder, safe=False)
         except Category.DoesNotExist:
@@ -49,14 +49,14 @@ def category_details(request, pk):
             return response
 
 
-# ------------------- Item Category VIEWS --------------------
+# ------------------- Clothing Item VIEWS --------------------
 
 
 @require_http_methods(["GET", "POST"])
-def list_item_categories(request):
+def list_clothing_items(request):
     if request.method == "GET":
-        item_categories = ItemCategory.objects.all()
-        return JsonResponse({"Item Categories": item_categories}, encoder=ItemCategoryEncoder)
+        clothing_items = ClothingItem.objects.all()
+        return JsonResponse({"Clothing Items": clothing_items}, encoder=ClothingItemEncoder)
     else:
         content = json.loads(request.body)
         try:
@@ -67,45 +67,85 @@ def list_item_categories(request):
                 {"Message": "Category does not exist"},
                 status=400
             )
-        item_category = ItemCategory.objects.create(**content)
-        return JsonResponse({"Item Category": item_category}, encoder=ItemCategoryEncoder, safe=False)
+        try:
+            outfit = Outfit.objects.get(id=content["outfit"])
+            content["outfit"] = outfit
+        except Outfit.DoesNotExist:
+            return JsonResponse(
+                {"Message": "Outfit does not exist"},
+                status=400
+            )
+        clothing_item = ClothingItem.objects.create(**content)
+        return JsonResponse({"Clothing Item Created": clothing_item}, encoder=ClothingItemEncoder, safe=False)
 
 
 @require_http_methods(["GET", "PUT", "DELETE"])
-def item_category_details(request, pk):
+def clothing_item_details(request, pk):
     if request.method == "GET":
         try:
-            item_category = ItemCategory.objects.get(id=pk)
-            return JsonResponse({"Item Category": item_category}, encoder=ItemCategoryEncoder, safe=False)
-        except ItemCategory.DoesNotExist:
-            response = JsonResponse({"Message": "Item Category Does Not Exist"})
+            clothing_item = ClothingItem.objects.get(id=pk)
+            return JsonResponse({"Item Category": clothing_item}, encoder=ClothingItemEncoder, safe=False)
+        except ClothingItem.DoesNotExist:
+            response = JsonResponse({"Message": "Clothing Item Does Not Exist"})
             response.status_code = 404
             return response
     elif request.method == "PUT":
+        content = json.loads(request.body)
         try:
-            category_name = content["name"]
-            category = Category.objects.get(name=category_name)
-            content["name"] = category
+            category = Category.objects.get(name=content["category"])
+            content["category"] = category
         except Category.DoesNotExist:
             return JsonResponse(
-                {"Message": "Invalid ID"},
+                {"Message": "Category Does Not Exist"},
                 status=400,
             )
         try:
-            content = json.loads(request.body)
-            item_category = ItemCategory.objects.filter(id=pk).update(**content)
-            return JsonResponse({"Item Category Updated": item_category}, encoder=ItemCategoryEncoder, safe=False)
-        except ItemCategory.DoesNotExist:
+            outfit = Outfit.objects.get(id=content["outfit"])
+            content["outfit"] = outfit
+        except Outfit.DoesNotExist:
+            return JsonResponse(
+                {"Message": "Outfit does not exist"},
+                status=400
+            )
+        try:
+            clothing_item = ClothingItem.objects.filter(id=pk).update(**content)
+            return JsonResponse({"Clothing Item Updated": clothing_item}, encoder=ClothingItemEncoder, safe=False)
+        except ClothingItem.DoesNotExist:
             response = JsonResponse({"Message": "Item Category Does Not Exist"})
             response.status_code = 404
             return response
     else:
         try:
-            item_category = ItemCategory.objects.get(id=pk)
-            item_category.delete()
-            return JsonResponse({"Category Deleted": item_category}, encoder=ItemCategoryEncoder, safe=False)
-        except ItemCategory.DoesNotExist:
+            clothing_item = ClothingItem.objects.get(id=pk)
+            clothing_item.delete()
+            return JsonResponse({"Category Deleted": clothing_item}, encoder=ClothingItemEncoder, safe=False)
+        except ClothingItem.DoesNotExist:
             response = JsonResponse({"Message": "Category does not exist"})
             response.status_code = 404
             return response
     
+
+# ------------------- Outfit VIEWS --------------------
+
+
+@require_http_methods(["GET", "POST"])
+def list_outfits(request):
+    if request.method == "GET":
+        outfits = Outfit.objects.all()
+        return JsonResponse({"Outfits": outfits}, encoder=OutfitEncoder)
+    else:
+        content = json.loads(request.body)
+        try:
+            closet = Closet.objects.get(id=content["closet"])
+            content["closet"] = closet
+        except Closet.DoesNotExist:
+            return JsonResponse(
+                {"Message": "Closet does not exist"},
+                status=400
+            )
+        outfit = Outfit.objects.create(**content)
+        return JsonResponse(
+            {"Outfit Created": outfit},
+            encoder=OutfitEncoder,
+            safe=False
+        )

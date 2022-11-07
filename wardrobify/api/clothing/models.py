@@ -6,7 +6,7 @@ from closets.models import Closet
 
 class Outfit(models.Model):
     name = models.CharField(max_length=64, null=False, blank=False)
-    desc = models.TextField(max_length=64, null=True, blank=True)
+    desc = models.TextField(null=True, blank=True)
     date_created = models.DateTimeField(auto_now_add=True)
     closet = models.ForeignKey(
         Closet,
