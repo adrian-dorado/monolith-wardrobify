@@ -73,5 +73,14 @@ def item_category_details(request, pk):
             response = JsonResponse({"Message": "Item Category Does Not Exist"})
             response.status_code = 404
             return response
-
+    elif request.method == "PUT":
+        try:
+            category_name = content["name"]
+            category = Category.objects.get(name=category_name)
+            content["name"] = category
+        except Category.DoesNotExist:
+            return JsonResponse(
+                {"Message": "Invalid ID"},
+                status=400,
+            )
     
