@@ -21,12 +21,12 @@ class QuerySetEncoder(JSONEncoder):
             return super().default(o)
 
 
-class ManyRelatedEncoder(JSONEncoder):
-    def default(self, o):
-        if isinstance(o, ManyToManyField):
-            return list(o)
-        else:
-            return super().default(o)
+# class ManyRelatedEncoder(JSONEncoder):
+#     def default(self, o):
+#         if isinstance(o, ManyToManyField):
+#             return list(o)
+#         else:
+#             return super().default(o)
 
 
 class ModelEncoder(DateEncoder, QuerySetEncoder, JSONEncoder):
