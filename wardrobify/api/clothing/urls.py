@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import list_categories, category_details, list_clothing_items, clothing_item_details, list_outfits
+from .views import list_categories, category_details, list_clothing_items, clothing_item_details, list_outfits, outfit_details
 
 urlpatterns = [
     path("categories/", list_categories, name="categories_list"),
@@ -8,5 +8,5 @@ urlpatterns = [
     path("", list_clothing_items, name="clothing_items_list"),
     path("<int:pk>/", clothing_item_details, name="clothing_details"),
     path("outfits/", list_outfits, name="outfits_list"),
-    # path("<int:pk>/", clothing_item_details, name="clothing_details"),
+    path("outfits/<int:pk>/", outfit_details, name="outfit_detail")
 ]

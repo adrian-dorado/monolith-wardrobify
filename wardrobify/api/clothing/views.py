@@ -149,3 +149,38 @@ def list_outfits(request):
             encoder=OutfitEncoder,
             safe=False
         )
+
+
+@require_http_methods(["GET", "PUT", "DELETE"])
+def outfit_details(request, pk):
+    if request.method == "GET":
+        outfit = Outfit.objects.get(id=pk)
+        return JsonResponse({"Outfit": outfit}, encoder=OutfitEncoder, safe=False)
+    elif request.method == "PUT":
+        content = json.loads(request.body)
+        try:
+            closet = Closet.objects.get(id=content["closet"])
+            content["closet"] = closet
+        except Closet.DoesNotExist:
+            return JsonResponse(
+                {"Message": "Closet does not exist"},
+                status=400
+            )
+        try:
+            outfit = Outfit.objects.filter(id=pk).update(**content)
+            return JsonResponse(
+                {"Outfit Updated": outfit}, encoder=OutfitEncoder, safe=False
+            )
+        except Outfit.DoesNotExist:
+            response = JsonResponse({"Message": "Outfit does not exist"})
+            response.status_code = 404
+            return response
+    else:
+        try:
+            outfit = Outfit.objects.get(id=pk)
+            outfit.delete()
+            return JsonResponse({"Category Deleted": outfit}, encoder=OutfitEncoder, safe=False)
+        except Outfit.DoesNotExist:
+            response = JsonResponse({"Message": "Outfit does not exist"})
+            response.status_code = 404
+            return response
