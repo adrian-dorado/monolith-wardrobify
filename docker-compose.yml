@@ -14,7 +14,7 @@ services:
   database:
     image: postgres:14.2-bullseye
     build:
-      context: .~/db
+      context: ./db
       dockerfile: ./Dockerfile.dev
     volumes:
       - wardrobify_database:/var/lib/postgresql/data
