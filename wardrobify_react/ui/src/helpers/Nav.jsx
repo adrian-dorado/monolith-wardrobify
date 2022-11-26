@@ -29,12 +29,12 @@ export default function Nav() {
                     fixed h-full z-40 
                     ease-in-out duration-500 
                     ${sidebar ? 'translate-y-0' : "translate-y-full"}`}>
-                <div className="mb-5">
-                    <button onClick={showSidebar}>
-                        X
-                    </button>
-                </div>
                 <div className='flex flex-col space-y-1'>
+                    <div className="mb-5">
+                        <button onClick={showSidebar}>
+                            X
+                        </button>
+                    </div>
                     <div>
                         <NavLink to='/' onClick={showSidebar} className="text-white">
                             Dashboard
