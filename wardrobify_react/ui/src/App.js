@@ -1,25 +1,33 @@
-import logo from './logo.svg';
 import './App.css';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import LandingPage from './helpers/LandingPage';
+import ClosetsList from './closets/ClosetsList';
+import ClosetDetails from './closets/ClosetDetails';
+import OutfitsList from './outfits/OutfitsList';
+import OutfitDetails from './outfits/OutfitDetails';
+import Nav from './helpers/Nav';
 
-function App() {
+export default function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <BrowserRouter>
+    <Nav />
+      <div>
+        <Routes>
+          <Route path='/' element={<LandingPage />} />
+          <Route path='closets/'>
+            <Route path=''  element={<ClosetsList />} />
+            <Route path='details/' element={<ClosetDetails />} />
+          </Route>
+          <Route path='outfits/'>
+            <Route path='' element={<OutfitsList />} />
+            <Route path='details/' element={<OutfitDetails />} />
+          </Route>
+          {/* <Route path='clothing/'>
+            <Route path='' element={}>
+            <Route>
+          </Route> */}
+      </Routes>
     </div>
+    </BrowserRouter >
   );
-}
-
-export default App;
+};
