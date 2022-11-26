@@ -1,6 +1,6 @@
 export default function ClosetsList() {
     return (
-        <div>
+        <div className='text-center'>
             This will be the closet list
         </div>
     );
