@@ -22,10 +22,6 @@ export default function App() {
             <Route path='' element={<OutfitsList />} />
             <Route path='details/' element={<OutfitDetails />} />
           </Route>
-          {/* <Route path='clothing/'>
-            <Route path='' element={}>
-            <Route>
-          </Route> */}
       </Routes>
     </div>
     </BrowserRouter >

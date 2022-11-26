@@ -1,12 +1,17 @@
 export default function LandingPage() {
     return (
         <div className="bg-black h-64">
-            <div className='grid grid-cols-3 gap-4 mx-8 content-start'>
-                <div className="rounded bg-slate-500">
+            <div className=''>
+                <div className="rounded content-center bg-slate-500">
+                    <div>
+
                     <h2 className="">
                         WHEEEESS
                     </h2>
-                    test
+                    <p>
+                        test
+                    </p>
+                    </div>
 
                 </div>
                 <div className="rounded bg-slate-400">
